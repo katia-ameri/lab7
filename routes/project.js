@@ -2,10 +2,9 @@ var models = require('../models');
 
 exports.projectInfo = function(req, res) { 
   var projectID = req.params.id;
-  models.project
+  models.Project
   .find({"_id": projectID})
   .sort('-date')
-
   .exec(afterQuery);
 
   // query for the specific project and
@@ -24,7 +23,7 @@ exports.addProject = function(req, res) {
   // make a new Project and save it to the DB
   // YOU MUST send an OK response w/ res.send();
 
-  var newPost = new models.project ({ 
+  var newPost = new models.Project ({ 
     "title": form_data['project_title'],
     "date": new Date(form_data['date']),
     "summary": form_data['summary'],
@@ -51,7 +50,7 @@ exports.deleteProject = function(req, res) {
 
     // find the project and remove it
   // YOU MUST send an OK response w/ res.send();
-  function deleteCallback(err, deleteBlogs) {
+  function deleteCallback(err, deletedBlogs) {
     if(err) {console.log(err); res.send(500);}
     res.send(200);
   }
