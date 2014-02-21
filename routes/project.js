@@ -4,7 +4,7 @@ exports.projectInfo = function(req, res) { 
   var projectID = req.params.id;
   models.project
   .find({"_id": projectID})
-  .sort('date')
+  .sort('-date')
 
   .exec(afterQuery);
 
@@ -26,10 +26,11 @@ exports.addProject = function(req, res) {
 
   var newPost = new models.project ({ 
     "title": form_data['project_title'],
-    "date": Date.parse(form_data['data']),
+    "date": new Date(form_data['date']),
+    "summary": form_data['summary'],
     "image": form_data['image_url']
 
-  })
+  });
 
   newPost.save(addCallback);
 
@@ -48,11 +49,10 @@ exports.deleteProject = function(req, res) {
   .remove()
   .exec(deleteCallback);
 
+    // find the project and remove it
+  // YOU MUST send an OK response w/ res.send();
   function deleteCallback(err, deleteBlogs) {
     if(err) {console.log(err); res.send(500);}
     res.send(200);
   }
-
-  // find the project and remove it
-  // YOU MUST send an OK response w/ res.send();
 }
